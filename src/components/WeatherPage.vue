@@ -30,6 +30,7 @@ export default {
     return {
       actualClass: "ligth-theme-cont",
       actuaTextColor: "ligth-theme",
+      weatherData: {},
     };
   },
   components: {
@@ -46,13 +47,16 @@ export default {
     },
 
     temperature() {
-      return this.$store.state.weatherData.main.temp.toFixed(0);
+      if (this.$store.state.weatherData.main) {
+        return this.$store.state.weatherData.main.temp.toFixed(0);
+      }
     },
 
     iconURL() {
       return `http://openweathermap.org/img/wn/${this.$store.state.weatherData.weather[0].icon}@2x.png`;
     },
   },
+
   mounted: function () {
     const date = new Date();
 

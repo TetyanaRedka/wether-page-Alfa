@@ -1,8 +1,7 @@
 <template>
   <div class="about" :class="actualClass">
-    <!-- <PreloaderVue v-if="loading" />
-    <WeatherPageVue v-else /> -->
-    <WeatherPageVue />
+    <PreloaderVue v-if="loading" />
+    <WeatherPageVue v-if="!loading" />
   </div>
 </template>
 
@@ -10,7 +9,6 @@
 // @ is an alias to /src
 import WeatherPageVue from "@/components/WeatherPage.vue";
 import PreloaderVue from "../components/Preloader.vue";
-import { mapState } from "vuex";
 
 export default {
   name: "Home",
@@ -18,11 +16,18 @@ export default {
     return {
       actualClass: "ligth-theme-cont",
       loading: true,
+      message: "старая запись",
     };
   },
   components: {
     WeatherPageVue,
     PreloaderVue,
+  },
+
+  computed: {
+    weatherData() {
+      return this.$store.state.weatherData;
+    },
   },
 
   mounted: function () {
@@ -34,10 +39,9 @@ export default {
   },
 
   watch: {
-    weatherData(oldData, newData) {
-      if (typeof newData === "object") {
-        this.loading = false;
-      }
+    weatherData(_, __) {
+      this.message = "Новая запись";
+      this.loading = false;
     },
   },
 };
